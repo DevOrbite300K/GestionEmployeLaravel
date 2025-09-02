@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\GestionEmploye;
 
 
 Route::get('/', [AdminController::class, 'index'])->name('admin.index');
@@ -39,3 +40,57 @@ Route::post('roles_permissions/delete-role/{id}', [App\Http\Controllers\Admin\Ro
 
 // supprimer la permission
 Route::post('roles_permissions/delete-permission/{id}', [App\Http\Controllers\Admin\RolePermissionController::class, 'deletePermission'])->name('deletepermission');
+
+
+
+
+
+
+
+
+
+
+
+
+
+// La gestion des employé
+Route::resource('employes', GestionEmploye::class)->names([
+    'index' => 'employes.index',
+    'create' => 'employes.create',
+    'store' => 'employes.store',
+    'show' => 'employes.show',
+    'edit' => 'employes.edit',
+    'update' => 'employes.update',
+    'destroy' => 'employes.destroy',
+]);
+
+// les routes pour assigner un role a un employe
+Route::get('employes/{id}/assign-role', [GestionEmploye::class, 'showAssignRoleForm'])->name('employes.assign_role');
+Route::post('employes/{id}/assign-role', [GestionEmploye::class, 'assignRoleToEmployee'])->name('employes.assign_role.post');
+
+
+// pour les route de profile
+Route::get('profile', [AdminController::class, 'profile'])->name('profile_admins');
+Route::get('profile/edit', [AdminController::class, 'editProfile'])->name('edit_profile_admins');
+Route::post('profile/edit', [AdminController::class, 'updateProfile'])->name('update_profile_admins');
+
+
+
+// les routes pour exporter les données
+Route::get('employes/export/excel', [GestionEmploye::class, 'exportExcel'])->name('employes.export.excel');
+Route::get('employes/export/pdf', [GestionEmploye::class, 'exportPDF'])->name('employes.export.pdf');
+
+
+
+
+
+// Les routes de Gestion des departements
+Route::resource('departements', App\Http\Controllers\Admin\GestionDepartement::class)->names([
+    'index' => 'departements.index',
+    'create' => 'departements.create',
+    'store' => 'departements.store',
+    'show' => 'departements.show',
+    'edit' => 'departements.edit',
+    'update' => 'departements.update',
+    'destroy' => 'departements.destroy',
+]);

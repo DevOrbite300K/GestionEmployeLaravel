@@ -8,6 +8,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Employe;
 
 /**
  * Class Poste
@@ -34,4 +35,9 @@ class Poste extends Model
 		'description',
 		'salaire_base'
 	];
+
+	public function employes()
+	{
+		return $this->hasMany(Employe::class, 'poste_id');
+	}
 }

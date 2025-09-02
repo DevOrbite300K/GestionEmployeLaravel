@@ -322,7 +322,7 @@
                     <i class="bi bi-list"></i>
                 </button>
                 <a class="navbar-brand fw-bold mb-0" href="#">
-                    <i class="bi bi-people-fill me-2"></i>HR Manager
+                    <i class="bi bi-people-fill me-2"></i>MEES
                 </a>
             </div>
 
@@ -348,14 +348,21 @@
                 <!-- Profil -->
                 <div class="dropdown">
                     <a class="nav-link dropdown-toggle text-white d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
-                        <img src="https://via.placeholder.com/32" class="rounded-circle me-2" width="32" height="32" alt="Profil">
-                        <span class="d-none d-md-inline">Admin</span>
+                        <img src="{{ asset('storage/' . auth()->user()->photo) }}" class="rounded-circle me-2" width="32" height="32" alt="Profil">
+                        <span class="d-none d-md-inline">
+                            {{ auth()->user()->prenom }} {{ auth()->user()->nom }}
+                        </span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Mon Profil</a></li>
+                        <li><a class="dropdown-item" href="{{ route('profile_admins') }}"><i class="bi bi-person me-2"></i>Mon Profil</a></li>
                         <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Paramètres</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right me-2"></i>Déconnexion</a></li>
+
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="dropdown-item"><i class="bi bi-box-arrow-right me-2"></i>Déconnexion</button>
+                        </form>
+
                     </ul>
                 </div>
             </div>
@@ -365,15 +372,19 @@
     <!-- Offcanvas Sidebar amélioré -->
     <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasMenu">
         <div class="offcanvas-header">
-            <h5 class="offcanvas-title"><i class="bi bi-people-fill"></i>HR Manager</h5>
+            <h5 class="offcanvas-title"><i class="bi bi-people-fill"></i>MEES</h5>
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
         </div>
         <div class="offcanvas-body">
             <!-- Profile Section -->
             <div class="user-profile">
-                <img src="https://via.placeholder.com/90" alt="User" class="user-img">
-                <h6 class="user-name">Admin</h6>
-                <p class="user-role">Administrateur RH</p>
+                <img src="{{ asset('storage/' . auth()->user()->photo) }}" alt="User" class="user-img">
+                <h6 class="user-name">
+                    {{ auth()->user()->prenom }} {{ auth()->user()->nom }}
+                </h6>
+                <p class="user-role">
+                    {{ auth()->user()->role }}
+                </p>
             </div>
             
             <!-- Navigation Section -->
@@ -399,20 +410,16 @@
                         <div class="collapse show sub-menu" id="employesMenu">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">
+                                    <a class="nav-link" href="{{ route('employes.create') }}">
                                         Ajouter Employé
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">
+                                    <a class="nav-link" href="{{ route('employes.index') }}">
                                         Liste Employés
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">
-                                        Organigramme
-                                    </a>
-                                </li>
+                                
                             </ul>
                         </div>
                     </li>
@@ -431,13 +438,13 @@
                         <div class="collapse sub-menu" id="departementsMenu">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">
-                                        Nouveau Département
+                                    <a class="nav-link" href="{{ route('departements.create') }}">
+                                        Ajouter un département
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">
-                                        Liste Départements
+                                    <a class="nav-link" href="{{ route('departements.index') }}">
+                                        Afficher la liste des départements
                                     </a>
                                 </li>
                             </ul>
@@ -701,9 +708,15 @@
             
             <!-- Logout Section -->
             <div class="logout-section">
-                <button class="logout-btn">
+                {{-- <button class="logout-btn">
                     <i class="bi bi-box-arrow-right"></i> Déconnexion
-                </button>
+                </button> --}}
+                <form action="{{ route('logout') }}" method="POST" class="d-inline-block w-100">
+                    @csrf
+                    <button type="submit" class="btn btn-link text-decoration-none logout-btn">
+                        <i class="bi bi-box-arrow-right"></i> Déconnexion
+                    </button>
+                </form>
             </div>
         </div>
     </div>
@@ -714,7 +727,8 @@
 
             <div class="container d-flex justify-content-between align-items-center mt-3">
                 <h5 class="">
-                    Bienvenue, <span class="text-primary">Admin</span> !
+                    Bienvenue, <span class="text-primary">
+                       {{ Auth::user()->prenom }} </span> !
                 </h5>
 
                 <span>
