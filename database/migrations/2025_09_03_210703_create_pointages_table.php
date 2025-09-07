@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->date('date_pointage');
             $table->time('heure_arrivee');
-            $table->time('heure_depart');
+            $table->time('heure_depart')->nullable()->default(null);
             $table->enum('statut', ['present', 'absent', 'en_retard'])->default('present');
             $table->foreignId('employe_id')->constrained()->onDelete('cascade');
             $table->timestamps();

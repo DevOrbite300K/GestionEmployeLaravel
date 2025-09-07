@@ -69,7 +69,7 @@
                             </tr>
                             <tr>
                                 <th>Poste :</th>
-                                <td>{{ $employe->poste->nom ?? 'N/A' }}</td>
+                                <td>{{ $employe->poste->titre ?? 'N/A' }}</td>
                             </tr>
                             <tr>
                                 <th>Département :</th>

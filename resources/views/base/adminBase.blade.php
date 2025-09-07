@@ -463,13 +463,19 @@
                         <div class="collapse sub-menu" id="posteMenu">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">
+                                    <a class="nav-link" href="{{ route('postes.create') }}">
                                         Ajouter un poste
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">
+                                    <a class="nav-link" href="{{ route('postes.index') }}">
                                         Afficher liste des postes
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">
+                                        Assigner un poste
                                     </a>
                                 </li>
                             </ul>
@@ -513,12 +519,12 @@
                         <div class="collapse sub-menu" id="documentMenu">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">
+                                    <a class="nav-link" href="{{ route('documents.create') }}">
                                         Ajouter un Document
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">
+                                    <a class="nav-link" href="{{ route('documents.index') }}">
                                         Afficher Liste des documents
                                     </a>
                                 </li>
@@ -537,12 +543,12 @@
                         <div class="collapse sub-menu" id="pointageMenu">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">
+                                    <a class="nav-link" href="{{ route('pointages.create') }}">
                                         Nouvel pointage
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">
+                                    <a class="nav-link" href="{{ route('pointages.index') }}">
                                         Historique des pointages
                                     </a>
                                 </li>

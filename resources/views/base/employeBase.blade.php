@@ -270,118 +270,175 @@
             }
         }
     </style>
+    <style>
+/* Spinner visibility / transition */
+#spinner {
+  display: none; /* initialement caché */
+  opacity: 1;
+  transition: opacity 1.75s ease, visibility 2.45s ease;
+}
+#spinner.visible {
+  display: flex !important; /* respecte d-flex layout */
+  opacity: 1;
+  visibility: visible;
+}
+#spinner.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+/* Après la transition on forcera display:none via JS */
+</style>
 </head>
 <body>
-    <!-- Sidebar -->
-    <nav id="sidebar">
-        <div class="sidebar-header">
-            <h3>Espace Employé</h3>
-        </div>
 
-        <ul class="list-unstyled components">
-            <li>
-                <a href="#" class="active">
-                    <i class="bi bi-speedometer2"></i> Tableau de bord
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="bi bi-person-circle"></i> Mon profil
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="bi bi-clock-history"></i> Pointages
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="bi bi-calendar-event"></i> Congés & Absences
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="bi bi-file-text"></i> Documents
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="bi bi-cash-coin"></i> Paie & Relevés
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="bi bi-chat-left-text"></i> Messagerie
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="bi bi-gear"></i> Paramètres
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="bi bi-box-arrow-right"></i> Déconnexion
-                </a>
-            </li>
-        </ul>
-    </nav>
+<!-- ajout du spinner centrer avec un fade -->
+<div id="spinner" class="d-flex justify-content-center align-items-center" 
+     style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.85); z-index: 2000;">
+  <div class="spinner text-primary" role="status" style="width: 3rem; height: 3rem;">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<!-- Sidebar -->
+<nav id="sidebar" class="mb-4" style="display: none;">
+    <div class="sidebar-header">
+        <h3>Espace Employé</h3>
+    </div>
+
+    <ul class="list-unstyled components">
+        <!-- Tableau de bord -->
+        <li>
+            <a href="{{ route('employe.bienvenue') }}" class="active">
+                <i class="bi bi-speedometer2"></i> Tableau de bord
+            </a>
+        </li>
+
+        <!-- Profil -->
+        <li>
+            <a class="d-flex align-items-center justify-content-between text-white text-decoration-none" data-bs-toggle="collapse" href="#profilCollapse" role="button" aria-expanded="false" aria-controls="profilCollapse">
+                <span><i class="bi bi-person-circle me-2"></i> Mon profil</span>
+                <i class="bi bi-chevron-down"></i>
+            </a>
+
+            <div class="collapse" id="profilCollapse">
+                <ul class="list-unstyled ps-4">
+                    <li><a href="{{ route('employe.profile') }}">Voir profil</a></li>
+                    <li><a href="{{ route('employe.profile.modifier.get') }}">Modifier profil</a></li>
+                </ul>
+            </div>
+        </li>
+
+        <!-- Pointages -->
+        <li>
+            <a class="d-flex align-items-center justify-content-between text-white text-decoration-none" data-bs-toggle="collapse" href="#pointagesCollapse" role="button" aria-expanded="false" aria-controls="pointagesCollapse">
+                <span><i class="bi bi-clock-history me-2"></i> Pointages</span>
+                <i class="bi bi-chevron-down"></i>
+            </a>
+            <div class="collapse" id="pointagesCollapse">
+                <ul class="list-unstyled ps-4">
+                    <li><a href="{{ route('employe.pointage') }}">Pointer</a></li>
+                    <li><a href="{{ route('employe.pointages') }}">Voir tout</a></li>
+                </ul>
+            </div>
+        </li>
+
+        <!-- Congés & Absences -->
+        <li>
+            <a class="d-flex align-items-center justify-content-between text-white text-decoration-none" data-bs-toggle="collapse" href="#congesCollapse" role="button" aria-expanded="false" aria-controls="congesCollapse">
+                <span><i class="bi bi-calendar-event me-2"></i> Congés & Absences</span>
+                <i class="bi bi-chevron-down"></i>
+            </a>
+            <div class="collapse" id="congesCollapse">
+                <ul class="list-unstyled ps-4">
+                    <li><a href="#">Mes congés</a></li>
+                    <li><a href="#">Demander un congé</a></li>
+                </ul>
+            </div>
+        </li>
+
+        <!-- Documents -->
+        <li>
+            <a class="d-flex align-items-center justify-content-between text-white text-decoration-none" data-bs-toggle="collapse" href="#documentsCollapse" role="button" aria-expanded="false" aria-controls="documentsCollapse">
+                <span><i class="bi bi-file-text me-2"></i> Documents</span>
+                <i class="bi bi-chevron-down"></i>
+            </a>
+            <div class="collapse" id="documentsCollapse">
+                <ul class="list-unstyled ps-4">
+                    <li><a href="{{ route('employe.documents') }}">Mes documents</a></li>
+                    <li><a href="{{ route('employe.documents.upload') }}">Ajouter un document</a></li>
+                </ul>
+            </div>
+        </li>
+
+        <!-- Paie & Relevés -->
+        <li>
+            <a class="d-flex align-items-center justify-content-between text-white text-decoration-none" data-bs-toggle="collapse" href="#paieCollapse" role="button" aria-expanded="false" aria-controls="paieCollapse">
+                <span><i class="bi bi-cash-coin me-2"></i> Paie & Relevés</span>
+                <i class="bi bi-chevron-down"></i>
+            </a>
+            <div class="collapse" id="paieCollapse">
+                <ul class="list-unstyled ps-4">
+                    <li><a href="#">Mes bulletins</a></li>
+                    <li><a href="#">Relevés</a></li>
+                </ul>
+            </div>
+        </li>
+        <hr >
+        <!-- Paramètres -->
+        <li>
+            <a href="{{ route('employe.changerMotDePasse.get') }}" class="d-flex align-items-center">
+                <i class="bi bi-gear me-2"></i> Paramètres
+            </a>
+        </li>
+
+        <!-- Déconnexion -->
+        <li class="mb-4">
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="btn btn-link text-white text-decoration-none w-100 text-start">
+                    <i class="bi bi-box-arrow-right me-2"></i> Déconnexion
+                </button>
+            </form>
+        </li>
+        
+    </ul>
+</nav>
+
+
 
     <!-- Content -->
-    <div id="content">
+    <div id="content" style="display: none;">
         <!-- Topbar -->
         <nav class="navbar topbar rounded-3">
             <div class="container-fluid">
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Rechercher..." aria-label="Search">
-                    <button class="btn btn-outline-primary" type="submit"><i class="bi bi-search"></i></button>
-                </form>
-                
-                <ul class="navbar-nav ms-auto flex-row">
-                    <li class="nav-item dropdown mx-2">
-                        <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-bell fs-5"></i>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                3
-                            </span>
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown mx-2">
-                        <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-envelope fs-5"></i>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                5
-                            </span>
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://via.placeholder.com/40" width="40" height="40" class="rounded-circle me-2">
-                            <span>Marie Dupont</span>
-                        </a>
-                    </li>
-                </ul>
+                <span class="navbar-brand mb-0 h1">Tableau de bord</span>
+                <div class="d-flex align-items-center">
+                    <span class="me-3 d-none d-lg-inline text-gray-600 small">
+                        <i class="bi bi-person-circle"></i> 
+                        {{ Auth::user()->getRoleNames()->first() ?? 'Aucun rôle' }}
+                    </span>
+                </div>
             </div>
         </nav>
 
+
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Tableau de bord</h1>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-                <i class="bi bi-download text-white-50 me-1"></i> Exporter rapport
-            </a>
+            <h3 class="h4 mb-0 text-gray-800">Bienvenue, 
+                <span class="fw-bold  ">{{ Auth::user()->prenom }}</span> > <span class="fw-bold  ">{{ Auth::user()->nom }}</span>
+            </h3>
+            {{-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                <i class="bi bi-download me-1"></i> Générer un rapport
+            </a> --}}
         </div>
+        <hr>
+
+
 
         @yield('content')
         
-        <!-- Footer -->
-        <footer class="sticky-footer bg-white mt-5 fixed-bottom">
-            <div class="container my-auto">
-                <div class="copyright text-center my-auto">
-                    <span>© {{ now('Y') }} Tableau de bord Employé. Tous droits réservés.</span>
-                </div>
-            </div>
-        </footer>
+        
     </div>
 
     <!-- Toggle Button -->
@@ -402,5 +459,56 @@
             console.log("Dashboard loaded successfully!");
         });
     </script>
+
+    <!-- Script pour le spinner genre le spinner apparait pendant 5 secondes avant de charger le sidebar et le content -->
+    <script>
+(function(){
+  // éléments
+  var spinner = document.getElementById('spinner');
+  var sidebar = document.getElementById('sidebar');
+  var content = document.getElementById('content');
+
+  if (!spinner) {
+    console.error('[SPINNER] élément #spinner introuvable');
+    return;
+  }
+
+  // affichage initial: on utilise une classe pour ne pas écraser d-flex
+  spinner.classList.add('visible');
+  console.log('[SPINNER] affiché, computed display =', window.getComputedStyle(spinner).display);
+
+  // fonction générique pour cacher le spinner
+  var hidden = false;
+  function hideSpinner(reason) {
+    if (hidden) return;
+    hidden = true;
+    console.log('[SPINNER] hideSpinner appelé — raison:', reason);
+
+    // ajout de la classe hidden (transition d'opacité)
+    spinner.classList.add('hidden');
+    spinner.classList.remove('visible');
+
+    // après la transition, forcer display none pour retirer de la page
+    setTimeout(function(){
+      try { spinner.style.display = 'none'; } catch(e){ /* ignore */ }
+      console.log('[SPINNER] display forcé à none après transition');
+    }, 5000); // doit couvrir la durée de transition CSS
+
+    // afficher le contenu si présent
+    if (sidebar) sidebar.style.display = 'block';
+    if (content) content.style.display = 'block';
+  }
+
+  // 1) cacher quand la page a fini de charger (images + tout)
+  window.addEventListener('load', function(){ hideSpinner('window.load'); });
+
+  // 2) fallback: cacher après 5s si load n'arrive pas (évite spinner bloqué)
+  setTimeout(function(){ hideSpinner('fallback 5000ms'); }, 5000);
+
+  // (optionnel) exposer commande manuelle dans la console
+  window.__hideMyAppSpinner = function(){ hideSpinner('manual call'); };
+})();
+</script>
+
 </body>
 </html>

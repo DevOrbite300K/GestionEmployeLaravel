@@ -17,6 +17,14 @@
                     <!-- Partie droite : formulaire -->
                     <div class="col-md-6">
                         <div class="card-body p-5">
+
+                            @if(session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                            @endif
+
+
                             <h3 class="card-title mb-4 text-center">{{ __('Connexion') }}</h3>
                             <form method="POST" action="{{ route('login') }}">
                                 @csrf

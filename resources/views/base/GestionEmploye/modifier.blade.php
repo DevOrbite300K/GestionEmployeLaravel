@@ -134,7 +134,7 @@
                         <option value="">-- Sélectionner Poste --</option>
                         @foreach($postes as $poste)
                             <option value="{{ $poste->id }}" {{ old('poste_id', $employe->poste_id) == $poste->id ? 'selected' : '' }}>
-                                {{ $poste->nom }}
+                                {{ $poste->titre }}
                             </option>
                         @endforeach
                     </select>

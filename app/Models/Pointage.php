@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property Carbon $date_pointage
  * @property Carbon $heure_arrivee
- * @property Carbon $heure_depart
+ * @property Carbon|null $heure_depart
  * @property string $statut
  * @property int $employe_id
  * @property Carbon|null $created_at
