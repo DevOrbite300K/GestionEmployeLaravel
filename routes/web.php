@@ -149,6 +149,66 @@ Route::resource('postes', App\Http\Controllers\Admin\GestionPoste::class)->names
     'destroy' => 'postes.destroy',
     'bonjour' => 'postes.bonjour'
 ]);
+
+// les routes pour la Gestion des contrats
+Route::resource('contrats', App\Http\Controllers\Admin\GestionContrat::class)->names([
+    'index' => 'contrats.index',
+    'create' => 'contrats.create',
+    'store' => 'contrats.store',
+    'show' => 'contrats.show',
+    'edit' => 'contrats.edit',
+    'update' => 'contrats.update',
+    'destroy' => 'contrats.destroy',
+]);
+
+// les routes pour la Gestion des conges
+Route::resource('conges', App\Http\Controllers\Admin\GestionConge::class)->names([
+    'index' => 'conges.index',
+    'create' => 'conges.create',
+    'store' => 'conges.store',
+    'show' => 'conges.show',
+    'edit' => 'conges.edit',
+    'update' => 'conges.update',
+    'destroy' => 'conges.destroy',
+]);
+
+// les routes pour la gestion paiements
+Route::resource('paiements', App\Http\Controllers\Admin\GestionPaiement::class)->names([
+    'index' => 'paiements.index',
+    'create' => 'paiements.create',
+    'store' => 'paiements.store',
+    'show' => 'paiements.show',
+    'edit' => 'paiements.edit',
+    'update' => 'paiements.update',
+    'destroy' => 'paiements.destroy',
+]);
+
+
+
+// les routes pour la Gestion des congés
+Route::resource('conges', App\Http\Controllers\Admin\GestionConge::class)->names([
+    'index'   => 'conges.index',
+    'create'  => 'conges.create',
+    'store'   => 'conges.store',
+    'show'    => 'conges.show',
+    'edit'    => 'conges.edit',
+    'update'  => 'conges.update',
+    'destroy' => 'conges.destroy',
+]);
+
+// Routes supplémentaires pour approuver ou rejeter un congé
+Route::post('conges/{id}/approuver', [App\Http\Controllers\Admin\GestionConge::class, 'approuver'])
+    ->name('conges.approuver');
+
+Route::post('conges/{id}/rejeter', [App\Http\Controllers\Admin\GestionConge::class, 'rejeter'])
+    ->name('conges.rejeter');
+
+
+
+
+
+
+
 // lier un employé à un poste
 Route::get('postes/{id}/lier-employe', [App\Http\Controllers\Admin\GestionPoste::class, 'lierEmployePosteForm'])->name('postes.lier_employe');
 Route::post('postes/{id}/lier-employe', [App\Http\Controllers\Admin\GestionPoste::class, 'lierEmployePoste'])->name('postes.lier_employe.post');
@@ -171,6 +231,30 @@ Route::post('/employe/profile/changer-mot-de-passe', [App\Http\Controllers\Emplo
 // Employe vois ces documents
 Route::get('/employe/documents', [App\Http\Controllers\Employe\EmployeController::class, 'mesDocuments'])
     ->name('employe.documents');
+
+// Employe vois ces contrats
+Route::get('/employe/contrats', [App\Http\Controllers\Employe\EmployeController::class, 'mesContrats'])
+    ->name('employe.contrats');
+
+// employe vois son poste
+Route::get('/employe/mon-poste', [App\Http\Controllers\Employe\EmployeController::class, 'monPoste'])
+    ->name('employe.monposte');
+// employe vois historique de son paiements
+Route::get('/employe/mes-paiements', [App\Http\Controllers\Employe\EmployeController::class, 'historiquePaiement'])
+    ->name('employe.mespaiements');
+
+// employe peut voir ces congés
+Route::get('/employe/mes-conges', [App\Http\Controllers\Employe\EmployeController::class, 'MesConges'])
+    ->name('employe.mesconges');
+// le formulaire de demande conge
+Route::get('/employe/demande-conge', [App\Http\Controllers\Employe\EmployeController::class, 'DemandeCongeGet'])
+    ->name('employe.demandeconge.get');
+
+Route::post('/employe/demande-conge-post', [App\Http\Controllers\Employe\EmployeController::class, 'DemanderCongePost'])
+    ->name('employe.demandeconge.post');
+
+
+
 // Employe connecter ajoute document
 // Afficher le formulaire d'upload + la liste des documents
 Route::get('/employe/documents/upload', [App\Http\Controllers\Employe\EmployeController::class, 'UploadDocumentGet'])
@@ -197,3 +281,14 @@ Route::post('/employe/pointage/depart', [App\Http\Controllers\Employe\EmployeCon
 
 
 
+
+
+
+
+
+
+// route pour le rapport
+Route::get('/rapports', [App\Http\Controllers\Admin\Rapport::class, 'index'])->name('rapports.index');
+// route pour filtrer 
+
+Route::get('/rapports/statut/{statut}', [App\Http\Controllers\Admin\Rapport::class, 'filtrerParStatut'])->name('rapports.filtrerParStatut');

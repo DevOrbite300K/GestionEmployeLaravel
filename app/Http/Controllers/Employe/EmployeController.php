@@ -11,6 +11,7 @@ use App\Models\Document;
 use App\Models\Conge;
 use App\Models\Pointage;
 use App\Models\Contrat;
+use App\Models\Paiement;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -249,6 +250,97 @@ class EmployeController extends Controller
 
         return redirect()->back()->with('success', 'Départ enregistré avec succès !');
     }
+
+    // employer peut voir ces contrats
+
+    // employer peut voir ses contrats uniquement
+    public function mesContrats()
+    {
+        // Récupérer l'employé connecté
+        $employe = Auth::user();
+
+        // Ne récupérer que les contrats liés à cet employé
+        $contrats = Contrat::where('employe_id', $employe->id)->orderBy('date_debut', 'desc')->get();
+
+
+        return view('base.profileEmploye.mescontrats', compact('contrats'));
+    }
+
+    // employe et son poste
+
+    public function monPoste()
+    {
+        $employe = Auth::user();               // Employé connecté
+        $poste = $employe->poste;              // Récupère le poste lié
+        $departement = $poste ? $poste->departement : null;  // Récupère le département si poste existe
+
+        return view('base.profileEmploye.monPoste', compact('poste', 'departement'));
+    }
+
+    // l'employe peut voir l'historique de son paiement
+    public function historiquePaiement()
+    {
+        // Récupérer l'employé connecté
+        $employe = Auth::user();
+
+        // Récupérer les paiements liés à cet employé
+        $paiements = Paiement::where('employe_id', $employe->id)->orderBy('date_paiement', 'desc')->get();
+
+        return view('base.profileEmploye.historiquePaiement', compact('paiements'));
+    }
+
+
+    // un employe peut demander congés
+    public function DemanderCongePost(Request $request)
+    {
+        $request->validate([
+            'type' => 'required|in:annuel,maladie,sans_solde,maternite,paternite,autre',
+            'motif' => 'nullable|string|max:500',
+            'date_debut' => 'required|date|after_or_equal:today',
+            'date_fin' => 'nullable|date|after_or_equal:date_debut',
+        ]);
+
+        $employe = Auth::user();
+
+        Conge::create([
+            'type' => $request->type,
+            'motif' => $request->motif,
+            'date_debut' => $request->date_debut,
+            'date_fin' => $request->date_fin,
+            'employe_id' => $employe->id,
+            // pas besoin de mettre statut, il est par défaut "en_attente"
+        ]);
+
+        return redirect()->route('employe.mesconges')->with('success', 'Votre demande de congé a été soumise avec succès et est en attente de validation.');
+    }
+
+    // afficher le formulaire de demande conges
+    public function DemandeCongeGet()
+    {
+        return view('base.profileEmploye.demandeConge');
+    }
+
+
+
+    // un employe peut voir la liste de ces conges
+    public function MesConges()
+    {
+        $employe = Auth::user();
+        $conges = Conge::where('employe_id', $employe->id)
+                        ->orderBy('date_debut', 'desc')
+                        ->get();
+
+        return view('base.profileEmploye.mesConges', compact('conges'));
+    }
+
+
+
+
+
+
+
+
+
 
 
 

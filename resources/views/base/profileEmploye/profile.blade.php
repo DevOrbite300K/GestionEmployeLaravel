@@ -6,7 +6,7 @@
 @php
     $totalDocuments = $documents->count();
     $poste = $employe->poste;
-    $departement = $poste ? $poste->departement : null;
+    $departement = $employe ? $employe->departement : null;
 @endphp
 <div class="container mt-4">
     <div class="row justify-content-center">

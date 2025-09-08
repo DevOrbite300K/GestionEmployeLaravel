@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon|null $date_fin
  * @property float $salaire_base
  * @property string $statut
+ * @property string $fichier
  * @property int $employe_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
@@ -43,6 +44,7 @@ class Contrat extends Model
 		'date_fin',
 		'salaire_base',
 		'statut',
+		'fichier',
 		'employe_id'
 	];
 

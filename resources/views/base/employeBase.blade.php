@@ -36,7 +36,11 @@
             transition: all 0.3s;
             z-index: 1000;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            overflow-y: auto; /* permet le scroll vertical si le contenu dépasse */
+            -webkit-overflow-scrolling: touch; /* pour un scroll fluide sur mobile */
         }
+
+        
         
         #sidebar .sidebar-header {
             padding: 20px;
@@ -287,6 +291,8 @@
   visibility: hidden;
   pointer-events: none;
 }
+
+
 /* Après la transition on forcera display:none via JS */
 </style>
 </head>
@@ -303,7 +309,7 @@
 <!-- Sidebar -->
 <nav id="sidebar" class="mb-4" style="display: none;">
     <div class="sidebar-header">
-        <h3>Espace Employé</h3>
+        <h4>Espace Employé</h4>
     </div>
 
     <ul class="list-unstyled components">
@@ -351,8 +357,8 @@
             </a>
             <div class="collapse" id="congesCollapse">
                 <ul class="list-unstyled ps-4">
-                    <li><a href="#">Mes congés</a></li>
-                    <li><a href="#">Demander un congé</a></li>
+                    <li><a href="{{ route('employe.mesconges') }}">Mes congés</a></li>
+                    <li><a href="{{ route('employe.demandeconge.get') }}">demander un congés</a></li>
                 </ul>
             </div>
         </li>
@@ -371,6 +377,23 @@
             </div>
         </li>
 
+
+        <!-- Contrats -->
+
+        <li>
+            <a class="d-flex align-items-center justify-content-between text-white text-decoration-none" data-bs-toggle="collapse" href="#contratCollapse" role="button" aria-expanded="false" aria-controls="documentsCollapse">
+                <span><i class="bi bi-file-text me-2"></i> Contrat/Poste</span>
+                <i class="bi bi-chevron-down"></i>
+            </a>
+            <div class="collapse" id="contratCollapse">
+                <ul class="list-unstyled ps-4">
+                    <li><a href="{{ route('employe.contrats') }}">Voir mes contrats</a></li>
+                    <li><a href="{{ route('employe.monposte') }}">info de mon poste</a></li>
+                </ul>
+            </div>
+        </li>
+
+
         <!-- Paie & Relevés -->
         <li>
             <a class="d-flex align-items-center justify-content-between text-white text-decoration-none" data-bs-toggle="collapse" href="#paieCollapse" role="button" aria-expanded="false" aria-controls="paieCollapse">
@@ -379,7 +402,7 @@
             </a>
             <div class="collapse" id="paieCollapse">
                 <ul class="list-unstyled ps-4">
-                    <li><a href="#">Mes bulletins</a></li>
+                    <li><a href="{{ route('employe.mespaiements') }}">Historique paiements</a></li>
                     <li><a href="#">Relevés</a></li>
                 </ul>
             </div>

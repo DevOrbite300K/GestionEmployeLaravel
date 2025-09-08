@@ -494,12 +494,12 @@
                         <div class="collapse sub-menu" id="contratMenu">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">
+                                    <a class="nav-link" href="{{ route('contrats.create') }}">
                                         Ajouter un contrat
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">
+                                    <a class="nav-link" href="{{ route('contrats.index') }}">
                                         Voir liste des contrats
                                     </a>
                                 </li>
@@ -568,12 +568,12 @@
                         <div class="collapse sub-menu" id="paiementMenu">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">
+                                    <a class="nav-link" href="{{ route('paiements.create') }}">
                                         Effectuer un paiement   
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">
+                                    <a class="nav-link" href="{{ route('paiements.index') }}">
                                         Afficher la liste des paiements
                                     </a>
                                 </li>
@@ -597,8 +597,8 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">
-                                        Gestion des Congés
+                                    <a class="nav-link" href="{{ route('conges.index') }}">
+                                        Historique des congés
                                     </a>
                                 </li>
                             </ul>
@@ -634,7 +634,7 @@
                 
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{{ route('rapports.index') }}">
                             <i class="bi bi-graph-up"></i>
                             Rapports
                         </a>
@@ -734,11 +734,14 @@
             <div class="container d-flex justify-content-between align-items-center mt-3">
                 <h5 class="">
                     Bienvenue, <span class="text-primary">
-                       {{ Auth::user()->prenom }} </span> !
+                       {{ Auth::user()->prenom }} </span> ! 
+                       
                 </h5>
 
                 <span>
-                    <i class="bi bi-person-circle fs-4"></i>
+                    <i class="bi bi-person-circle fs-4">
+                        {{ Auth::user()->getRoleNames()[0] }}
+                    </i>
                 </span>
 
                 
@@ -779,5 +782,6 @@
             offcanvas.show();
         }
     </script>
+    @yield('scripts')
 </body>
 </html>
